@@ -1,0 +1,47 @@
+<div class="bg-gray-100 min-h-screen">
+  <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <h1 class="text-2xl font-bold mb-4">Active Polls</h1>
+    <div
+      class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+      *ngIf="activePolls$ | async as activePolls"
+    >
+      <!-- Poll card -->
+      <div
+        class="bg-white rounded-lg shadow-md overflow-hidden"
+        *ngFor="let activePoll of activePolls"
+      >
+        <div class="px-4 py-3 border-b border-gray-200">
+          <h2 class="text-lg font-medium text-gray-900">Question</h2>
+          <p class="text-sm text-gray-500">{{ activePoll.question }}</p>
+        </div>
+        <ul
+          class="divide-y divide-gray-200"
+          *ngFor="let option of activePoll.options"
+        >
+          <li class="px-4 py-3">
+            <span class="text-gray-700">{{ option.option }} </span>
+            <button
+              class="inline-flex justify-center py-1 px-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              *ngIf="!activePoll.voted"
+              (click)="onVote(activePoll, option.id)"
+            >
+              Vote
+            </button>
+            <div
+              *ngIf="activePoll.voted"
+              class="w-full bg-gray-200 rounded-full dark:bg-gray-700 mt-1"
+            >
+              <div
+                [style.width.%]="option.voteCount"
+                class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+              >
+                {{ option.voteCount }}%
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!-- /Poll card -->
+    </div>
+  </div>
+</div>

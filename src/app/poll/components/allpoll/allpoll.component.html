@@ -1,0 +1,45 @@
+<div class="bg-gray-100 min-h-screen">
+  <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <h1 class="text-2xl font-bold mb-4">All Polls</h1>
+    <div
+      class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+      *ngIf="polls$ | async as polls"
+    >
+      <!-- Poll card -->
+      <div
+        class="bg-white rounded-lg shadow-md overflow-hidden"
+        *ngFor="let poll of polls"
+      >
+        <div class="px-4 py-3 border-b border-gray-200">
+          <h2 class="text-lg font-medium text-gray-900">Question</h2>
+          <p class="text-sm text-gray-500">{{ poll.question }}</p>
+        </div>
+        <ul
+          class="divide-y divide-gray-200"
+          *ngFor="let option of poll.options"
+        >
+          <!-- Poll answers -->
+          <li class="px-4 py-3 poll.active ? 'bg-green-50' : ''">
+            <span class="text-gray-700"
+              >{{ option.option }} | votes: {{ option.voteCount }}</span
+            >
+          </li>
+        </ul>
+        <div
+          class="px-4 py-3 border-t border-gray-200 flex items-center justify-between"
+        >
+          <!-- Toggle active button -->
+          <button
+            type="button"
+            (click)="toggleStatus(poll)"
+            class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            <span class="mr-1" *ngIf="!poll.active">Active &#x2713;</span>
+            <span class="mr-1" *ngIf="poll.active">Inactive &#x2715;</span>
+          </button>
+        </div>
+      </div>
+      <!-- /Poll card -->
+    </div>
+  </div>
+</div>
